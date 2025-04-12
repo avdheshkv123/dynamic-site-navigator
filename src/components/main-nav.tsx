@@ -22,14 +22,6 @@ interface NavItem {
 
 const navItems: NavItem[] = [
   {
-    title: "Solutions",
-    subItems: [
-      { title: "Inventory Management", href: "/solutions/inventory" },
-      { title: "Warehouse Management", href: "/solutions/warehouse" },
-      { title: "Supply Chain", href: "/solutions/supply-chain" },
-    ],
-  },
-  {
     title: "Industries",
     subItems: [
       { title: "Retail", href: "/industries/retail" },
@@ -39,20 +31,10 @@ const navItems: NavItem[] = [
     ],
   },
   {
-    title: "Resources",
-    subItems: [
-      { title: "Documentation", href: "/resources/documentation" },
-      { title: "Guides", href: "/resources/guides" },
-      { title: "Blog", href: "/resources/blog" },
-      { title: "Support", href: "/resources/support" },
-    ],
-  },
-  {
     title: "Company",
     subItems: [
       { title: "About Us", href: "/company/about" },
       { title: "Careers", href: "/company/careers" },
-      { title: "Contact Us", href: "/company/contact" },
     ],
   },
 ];

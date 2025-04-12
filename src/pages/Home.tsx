@@ -43,9 +43,6 @@ const Home = () => {
                 <Button variant="green" size="lg" asChild>
                   <Link to="/login">Get Started</Link>
                 </Button>
-                <Button variant="outline" size="lg" className="border-white text-white">
-                  <Link to="/contact">Contact Sales</Link>
-                </Button>
               </div>
             </div>
             <div className="hidden md:block">
@@ -113,7 +110,7 @@ const Home = () => {
       {/* Footer */}
       <footer className="bg-brand-dark text-white py-12">
         <div className="container px-4 md:px-6">
-          <div className="grid gap-8 md:grid-cols-4">
+          <div className="grid gap-8 md:grid-cols-3">
             <div>
               <h3 className="font-bold text-xl mb-4">
                 <span className="text-primary">Inven</span>Flow
@@ -130,11 +127,12 @@ const Home = () => {
               </div>
             </div>
             <div>
-              <h4 className="font-semibold mb-4">Solutions</h4>
+              <h4 className="font-semibold mb-4">Industries</h4>
               <ul className="space-y-2">
-                <li><a href="#" className="text-gray-300 hover:text-white">Inventory Management</a></li>
-                <li><a href="#" className="text-gray-300 hover:text-white">Warehouse Management</a></li>
-                <li><a href="#" className="text-gray-300 hover:text-white">Supply Chain</a></li>
+                <li><a href="#" className="text-gray-300 hover:text-white">Retail</a></li>
+                <li><a href="#" className="text-gray-300 hover:text-white">Manufacturing</a></li>
+                <li><a href="#" className="text-gray-300 hover:text-white">Healthcare</a></li>
+                <li><a href="#" className="text-gray-300 hover:text-white">Logistics</a></li>
               </ul>
             </div>
             <div>
@@ -142,12 +140,6 @@ const Home = () => {
               <ul className="space-y-2">
                 <li><a href="#" className="text-gray-300 hover:text-white">About Us</a></li>
                 <li><a href="#" className="text-gray-300 hover:text-white">Careers</a></li>
-                <li><a href="#" className="text-gray-300 hover:text-white">Contact</a></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-semibold mb-4">Legal</h4>
-              <ul className="space-y-2">
                 <li><a href="#" className="text-gray-300 hover:text-white">Privacy Policy</a></li>
                 <li><a href="#" className="text-gray-300 hover:text-white">Terms of Service</a></li>
               </ul>
