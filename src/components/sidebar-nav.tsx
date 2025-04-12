@@ -9,7 +9,10 @@ import {
   Store, 
   Settings,
   ChevronRight,
-  ChevronLeft
+  ChevronLeft,
+  ShoppingCart,
+  ClipboardList,
+  Users
 } from "lucide-react";
 import { buttonVariants } from "./ui/button";
 import { useAuth } from "@/contexts/auth-context";
@@ -33,6 +36,18 @@ export function SidebarNav({ className, ...props }: SidebarNavProps) {
       title: "Products",
       href: "/products",
       icon: Package,
+      roles: ["administrator", "supplier", "customer"]
+    },
+    {
+      title: "Orders",
+      href: "/orders",
+      icon: ShoppingCart,
+      roles: ["administrator", "supplier", "customer"]
+    },
+    {
+      title: "Inventory",
+      href: "/inventory",
+      icon: ClipboardList,
       roles: ["administrator", "supplier"]
     },
     {
@@ -45,12 +60,18 @@ export function SidebarNav({ className, ...props }: SidebarNavProps) {
       title: "Reports",
       href: "/reports",
       icon: BarChart3,
-      roles: ["administrator", "customer"]
+      roles: ["administrator", "customer", "supplier"]
     },
     {
       title: "Suppliers",
       href: "/suppliers",
       icon: Store,
+      roles: ["administrator"]
+    },
+    {
+      title: "User Management",
+      href: "/users",
+      icon: Users,
       roles: ["administrator"]
     },
     {

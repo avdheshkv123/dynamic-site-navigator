@@ -12,11 +12,15 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import Products from "./pages/Products";
+import Orders from "./pages/Orders";
+import Inventory from "./pages/Inventory";
 import StockMovements from "./pages/StockMovements";
 import Reports from "./pages/Reports";
 import Suppliers from "./pages/Suppliers";
+import UserManagement from "./pages/UserManagement";
 import Settings from "./pages/Settings";
 import NotFound from "./pages/NotFound";
+import Index from "./pages/Index";
 
 // Layout
 import { Layout } from "./components/layout";
@@ -32,16 +36,20 @@ const App = () => (
         <BrowserRouter>
           <AuthProvider>
             <Routes>
-              <Route path="/" element={<Home />} />
+              <Route path="/" element={<Index />} />
+              <Route path="/home" element={<Home />} />
               <Route path="/login" element={<Login />} />
               
               {/* Protected Routes */}
               <Route element={<Layout />}>
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/products" element={<Products />} />
+                <Route path="/orders" element={<Orders />} />
+                <Route path="/inventory" element={<Inventory />} />
                 <Route path="/stock-movements" element={<StockMovements />} />
                 <Route path="/reports" element={<Reports />} />
                 <Route path="/suppliers" element={<Suppliers />} />
+                <Route path="/users" element={<UserManagement />} />
                 <Route path="/settings" element={<Settings />} />
               </Route>
               
