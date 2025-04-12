@@ -12,7 +12,10 @@ import {
   ChevronLeft,
   ShoppingCart,
   ClipboardList,
-  Users
+  Users,
+  MessageSquare,
+  Filter,
+  Warehouse
 } from "lucide-react";
 import { buttonVariants } from "./ui/button";
 import { useAuth } from "@/contexts/auth-context";
@@ -45,6 +48,18 @@ export function SidebarNav({ className, ...props }: SidebarNavProps) {
       roles: ["administrator", "supplier", "customer"]
     },
     {
+      title: "Cart",
+      href: "/cart",
+      icon: ShoppingCart,
+      roles: ["customer"]
+    },
+    {
+      title: "Reviews",
+      href: "/reviews",
+      icon: MessageSquare,
+      roles: ["administrator", "customer"]
+    },
+    {
       title: "Inventory",
       href: "/inventory",
       icon: ClipboardList,
@@ -54,6 +69,18 @@ export function SidebarNav({ className, ...props }: SidebarNavProps) {
       title: "Stock Movements",
       href: "/stock-movements",
       icon: PackageOpen,
+      roles: ["administrator"]
+    },
+    {
+      title: "Warehouse",
+      href: "/warehouse",
+      icon: Warehouse,
+      roles: ["administrator", "supplier"]
+    },
+    {
+      title: "Filters Config",
+      href: "/filters-config",
+      icon: Filter,
       roles: ["administrator"]
     },
     {

@@ -49,7 +49,13 @@ const Login = () => {
   return (
     <div className="container relative flex-col items-center justify-center min-h-screen grid lg:max-w-none lg:grid-cols-2 lg:px-0">
       <div className="relative hidden h-full flex-col bg-muted p-10 text-white dark:border-r lg:flex">
-        <div className="absolute inset-0 bg-brand-dark" />
+        <div className="absolute inset-0 bg-brand-dark">
+          <img 
+            src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d" 
+            alt="Inventory Management" 
+            className="object-cover w-full h-full opacity-20"
+          />
+        </div>
         <div className="relative z-20 flex items-center text-lg font-medium">
           <span className="text-primary text-xl font-bold">Inven</span>Flow
         </div>

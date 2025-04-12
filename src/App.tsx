@@ -21,6 +21,11 @@ import UserManagement from "./pages/UserManagement";
 import Settings from "./pages/Settings";
 import NotFound from "./pages/NotFound";
 import Index from "./pages/Index";
+import Cart from "./pages/Cart";
+import Checkout from "./pages/Checkout";
+import Reviews from "./pages/Reviews";
+import FiltersConfig from "./pages/FiltersConfig";
+import Warehouse from "./pages/Warehouse";
 
 // Layout
 import { Layout } from "./components/layout";
@@ -51,6 +56,13 @@ const App = () => (
                 <Route path="/suppliers" element={<Suppliers />} />
                 <Route path="/users" element={<UserManagement />} />
                 <Route path="/settings" element={<Settings />} />
+                
+                {/* New Routes */}
+                <Route path="/cart" element={<Cart />} />
+                <Route path="/checkout" element={<Checkout />} />
+                <Route path="/reviews" element={<Reviews />} />
+                <Route path="/filters-config" element={<FiltersConfig />} />
+                <Route path="/warehouse" element={<Warehouse />} />
               </Route>
               
               <Route path="*" element={<NotFound />} />
