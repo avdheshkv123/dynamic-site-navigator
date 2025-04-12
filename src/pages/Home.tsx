@@ -50,9 +50,9 @@ const Home = () => {
             </div>
             <div className="hidden md:block">
               <img 
-                src="https://placehold.co/600x400/10b981/FFFFFF?text=InvenFlow+Dashboard" 
+                src="https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7" 
                 alt="InvenFlow Dashboard" 
-                className="rounded-lg shadow-lg"
+                className="rounded-lg shadow-lg object-cover h-[400px] w-full"
               />
             </div>
           </div>
@@ -121,6 +121,13 @@ const Home = () => {
               <p className="text-gray-300">
                 Streamline your inventory management with our powerful platform.
               </p>
+              <div className="mt-4">
+                <img 
+                  src="https://images.unsplash.com/photo-1579684947550-22e945225d9a" 
+                  alt="Inventory Management" 
+                  className="rounded-md h-20 w-full object-cover"
+                />
+              </div>
             </div>
             <div>
               <h4 className="font-semibold mb-4">Solutions</h4>
@@ -144,6 +151,13 @@ const Home = () => {
                 <li><a href="#" className="text-gray-300 hover:text-white">Privacy Policy</a></li>
                 <li><a href="#" className="text-gray-300 hover:text-white">Terms of Service</a></li>
               </ul>
+              <div className="mt-4">
+                <img 
+                  src="https://images.unsplash.com/photo-1600565193348-f74bd3c7ccdf" 
+                  alt="Company Image" 
+                  className="rounded-md h-20 w-full object-cover"
+                />
+              </div>
             </div>
           </div>
           <div className="border-t border-gray-800 mt-8 pt-6 text-center">
