@@ -4,17 +4,14 @@ import { Link, useLocation } from "react-router-dom";
 import { 
   LayoutDashboard, 
   Package, 
-  PackageOpen, 
-  BarChart3, 
+  ShoppingCart, 
   Store, 
   Settings,
   ChevronRight,
   ChevronLeft,
-  ShoppingCart,
   ClipboardList,
   Users,
   MessageSquare,
-  Filter,
   Warehouse
 } from "lucide-react";
 import { buttonVariants } from "./ui/button";
@@ -57,7 +54,7 @@ export function SidebarNav({ className, ...props }: SidebarNavProps) {
       title: "Reviews",
       href: "/reviews",
       icon: MessageSquare,
-      roles: ["administrator", "customer"]
+      roles: ["administrator", "customer", "supplier"]
     },
     {
       title: "Inventory",
@@ -68,26 +65,8 @@ export function SidebarNav({ className, ...props }: SidebarNavProps) {
     {
       title: "Stock Movements",
       href: "/stock-movements",
-      icon: PackageOpen,
-      roles: ["administrator"]
-    },
-    {
-      title: "Warehouse",
-      href: "/warehouse",
-      icon: Warehouse,
+      icon: Package,
       roles: ["administrator", "supplier"]
-    },
-    {
-      title: "Filters Config",
-      href: "/filters-config",
-      icon: Filter,
-      roles: ["administrator"]
-    },
-    {
-      title: "Reports",
-      href: "/reports",
-      icon: BarChart3,
-      roles: ["administrator", "customer", "supplier"]
     },
     {
       title: "Suppliers",

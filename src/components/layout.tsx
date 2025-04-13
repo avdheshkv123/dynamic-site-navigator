@@ -1,6 +1,7 @@
 
 import { MainNav } from "@/components/main-nav";
 import { SidebarNav } from "@/components/sidebar-nav";
+import { Footer } from "@/components/footer";
 import { useAuth } from "@/contexts/auth-context";
 import { Navigate, Outlet } from "react-router-dom";
 
@@ -26,6 +27,7 @@ export function Layout() {
           <Outlet />
         </main>
       </div>
+      <Footer />
     </div>
   );
 }

@@ -15,7 +15,6 @@ import Products from "./pages/Products";
 import Orders from "./pages/Orders";
 import Inventory from "./pages/Inventory";
 import StockMovements from "./pages/StockMovements";
-import Reports from "./pages/Reports";
 import Suppliers from "./pages/Suppliers";
 import UserManagement from "./pages/UserManagement";
 import Settings from "./pages/Settings";
@@ -24,8 +23,6 @@ import Index from "./pages/Index";
 import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
 import Reviews from "./pages/Reviews";
-import FiltersConfig from "./pages/FiltersConfig";
-import Warehouse from "./pages/Warehouse";
 
 // Layout
 import { Layout } from "./components/layout";
@@ -52,17 +49,14 @@ const App = () => (
                 <Route path="/orders" element={<Orders />} />
                 <Route path="/inventory" element={<Inventory />} />
                 <Route path="/stock-movements" element={<StockMovements />} />
-                <Route path="/reports" element={<Reports />} />
                 <Route path="/suppliers" element={<Suppliers />} />
                 <Route path="/users" element={<UserManagement />} />
                 <Route path="/settings" element={<Settings />} />
                 
-                {/* New Routes */}
+                {/* User Routes */}
                 <Route path="/cart" element={<Cart />} />
                 <Route path="/checkout" element={<Checkout />} />
                 <Route path="/reviews" element={<Reviews />} />
-                <Route path="/filters-config" element={<FiltersConfig />} />
-                <Route path="/warehouse" element={<Warehouse />} />
               </Route>
               
               <Route path="*" element={<NotFound />} />

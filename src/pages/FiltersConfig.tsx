@@ -10,8 +10,42 @@ import { Separator } from "@/components/ui/separator";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/hooks/use-toast";
 
+// Define proper types to solve type errors
+interface FilterOption {
+  id: string;
+  label: string;
+  value: string;
+  checked: boolean;
+}
+
+interface BaseFilter {
+  id: number;
+  name: string;
+  type: string;
+  isExpanded: boolean;
+  isEnabled: boolean;
+}
+
+interface CheckboxFilter extends BaseFilter {
+  type: 'checkbox' | 'radio';
+  options: FilterOption[];
+  min?: undefined;
+  max?: undefined;
+  step?: undefined;
+}
+
+interface RangeFilter extends BaseFilter {
+  type: 'range';
+  min: number;
+  max: number;
+  step: number;
+  options?: undefined;
+}
+
+type FilterType = CheckboxFilter | RangeFilter;
+
 // Initial filter categories
-const initialFilters = [
+const initialFilters: FilterType[] = [
   {
     id: 1,
     name: "Categories",
@@ -76,9 +110,9 @@ const initialFilters = [
 ];
 
 const FiltersConfig = () => {
-  const [filters, setFilters] = useState(initialFilters);
+  const [filters, setFilters] = useState<FilterType[]>(initialFilters);
   const [newFilterName, setNewFilterName] = useState("");
-  const [newFilterType, setNewFilterType] = useState("checkbox");
+  const [newFilterType, setNewFilterType] = useState<"checkbox" | "radio" | "range">("checkbox");
   const [draggedItemId, setDraggedItemId] = useState<number | null>(null);
   const { toast } = useToast();
 
@@ -96,7 +130,7 @@ const FiltersConfig = () => {
 
   const handleOptionToggle = (filterId: number, optionId: string) => {
     setFilters(filters.map(filter => {
-      if (filter.id === filterId && filter.type === "checkbox") {
+      if (filter.id === filterId && (filter.type === "checkbox" || filter.type === "radio")) {
         return {
           ...filter,
           options: filter.options.map(option => 
@@ -134,7 +168,7 @@ const FiltersConfig = () => {
     };
     
     setFilters(filters.map(filter => {
-      if (filter.id === filterId) {
+      if (filter.id === filterId && (filter.type === "checkbox" || filter.type === "radio")) {
         return {
           ...filter,
           options: [...filter.options, newOption]
@@ -186,20 +220,32 @@ const FiltersConfig = () => {
       return;
     }
 
-    const newFilter = {
-      id: Date.now(),
-      name: newFilterName,
-      type: newFilterType,
-      isExpanded: true,
-      isEnabled: true,
-      options: newFilterType === "checkbox" || newFilterType === "radio" ? [
-        { id: `new-${Date.now()}-1`, label: "Option 1", value: "option-1", checked: false },
-        { id: `new-${Date.now()}-2`, label: "Option 2", value: "option-2", checked: false }
-      ] : [],
-      min: newFilterType === "range" ? 0 : undefined,
-      max: newFilterType === "range" ? 100 : undefined,
-      step: newFilterType === "range" ? 1 : undefined
-    };
+    let newFilter: FilterType;
+
+    if (newFilterType === "checkbox" || newFilterType === "radio") {
+      newFilter = {
+        id: Date.now(),
+        name: newFilterName,
+        type: newFilterType,
+        isExpanded: true,
+        isEnabled: true,
+        options: [
+          { id: `new-${Date.now()}-1`, label: "Option 1", value: "option-1", checked: false },
+          { id: `new-${Date.now()}-2`, label: "Option 2", value: "option-2", checked: false }
+        ]
+      };
+    } else {
+      newFilter = {
+        id: Date.now(),
+        name: newFilterName,
+        type: "range",
+        isExpanded: true,
+        isEnabled: true,
+        min: 0,
+        max: 100,
+        step: 1
+      };
+    }
 
     setFilters([...filters, newFilter]);
     setNewFilterName("");
@@ -241,6 +287,25 @@ const FiltersConfig = () => {
     
     setFilters(newFilters);
     setDraggedItemId(null);
+  };
+
+  const handleRangeInputChange = (
+    filterId: number, 
+    field: 'min' | 'max' | 'step', 
+    value: string
+  ) => {
+    const numValue = parseInt(value, 10);
+    if (isNaN(numValue)) return;
+
+    setFilters(filters.map(filter => {
+      if (filter.id === filterId && filter.type === 'range') {
+        return {
+          ...filter,
+          [field]: numValue
+        };
+      }
+      return filter;
+    }));
   };
 
   const handleSaveConfig = () => {
@@ -384,11 +449,7 @@ const FiltersConfig = () => {
                                 id={`min-${filter.id}`}
                                 type="number"
                                 value={filter.min}
-                                onChange={(e) => {
-                                  setFilters(filters.map(f => 
-                                    f.id === filter.id ? { ...f, min: parseInt(e.target.value) } : f
-                                  ));
-                                }}
+                                onChange={(e) => handleRangeInputChange(filter.id, 'min', e.target.value)}
                               />
                             </div>
                             <div>
@@ -397,11 +458,7 @@ const FiltersConfig = () => {
                                 id={`max-${filter.id}`}
                                 type="number"
                                 value={filter.max}
-                                onChange={(e) => {
-                                  setFilters(filters.map(f => 
-                                    f.id === filter.id ? { ...f, max: parseInt(e.target.value) } : f
-                                  ));
-                                }}
+                                onChange={(e) => handleRangeInputChange(filter.id, 'max', e.target.value)}
                               />
                             </div>
                           </div>
@@ -411,11 +468,7 @@ const FiltersConfig = () => {
                               id={`step-${filter.id}`}
                               type="number"
                               value={filter.step}
-                              onChange={(e) => {
-                                setFilters(filters.map(f => 
-                                  f.id === filter.id ? { ...f, step: parseInt(e.target.value) } : f
-                                ));
-                              }}
+                              onChange={(e) => handleRangeInputChange(filter.id, 'step', e.target.value)}
                             />
                           </div>
                         </div>
@@ -458,7 +511,7 @@ const FiltersConfig = () => {
                     id="new-filter-type"
                     className="w-full h-9 rounded-md border border-input bg-transparent px-3 py-1"
                     value={newFilterType}
-                    onChange={(e) => setNewFilterType(e.target.value)}
+                    onChange={(e) => setNewFilterType(e.target.value as "checkbox" | "radio" | "range")}
                   >
                     <option value="checkbox">Checkbox (Multiple Selection)</option>
                     <option value="radio">Radio (Single Selection)</option>
@@ -488,7 +541,7 @@ const FiltersConfig = () => {
                   <div key={filter.id} className="space-y-3">
                     <h3 className="font-medium">{filter.name}</h3>
                     
-                    {filter.type === "checkbox" && filter.options.length > 0 && (
+                    {filter.type === "checkbox" && filter.options && filter.options.length > 0 && (
                       <div className="space-y-2">
                         {filter.options.map(option => (
                           <div key={option.id} className="flex items-center gap-2">
@@ -499,7 +552,7 @@ const FiltersConfig = () => {
                       </div>
                     )}
                     
-                    {filter.type === "radio" && filter.options.length > 0 && (
+                    {filter.type === "radio" && filter.options && filter.options.length > 0 && (
                       <div className="space-y-2">
                         {filter.options.map(option => (
                           <div key={option.id} className="flex items-center gap-2">

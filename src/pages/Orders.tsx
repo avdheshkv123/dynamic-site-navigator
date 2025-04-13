@@ -9,7 +9,8 @@ import {
   FileText,
   Truck,
   X,
-  CheckCircle
+  CheckCircle,
+  Package
 } from "lucide-react";
 import {
   Table,
@@ -159,7 +160,6 @@ const Orders = () => {
     
     setCancelOrderDialog(false);
     
-    // In a real application, you would update the order in your database
     const updatedOrders = filteredOrders.map(order => 
       order.id === selectedOrder.id ? { ...order, status: "Cancelled" } : order
     );
@@ -293,9 +293,7 @@ const Orders = () => {
           </Card>
         </TabsContent>
         
-        {/* Other tabs will have similar content but filtered by status */}
         <TabsContent value="pending" className="mt-0">
-          {/* Similar table but filtered for pending orders */}
           <Card>
             <CardContent className="p-0">
               <Table>
@@ -354,9 +352,7 @@ const Orders = () => {
           </Card>
         </TabsContent>
         
-        {/* Repeating for other tabs */}
         <TabsContent value="processing" className="mt-0">
-          {/* Similar table structure */}
           <Card>
             <CardContent className="p-0">
               <Table>
@@ -403,7 +399,6 @@ const Orders = () => {
           </Card>
         </TabsContent>
         
-        {/* Repeating for remaining tabs */}
         <TabsContent value="shipped" className="mt-0">
           <Card>
             <CardContent className="p-0">
@@ -548,7 +543,6 @@ const Orders = () => {
         )}
       </Tabs>
       
-      {/* Order Details Dialog */}
       <Dialog open={viewOrderDetails} onOpenChange={setViewOrderDetails}>
         <DialogContent className="sm:max-w-lg">
           <DialogHeader>
@@ -630,7 +624,6 @@ const Orders = () => {
         </DialogContent>
       </Dialog>
       
-      {/* Cancel Order Dialog */}
       <Dialog open={cancelOrderDialog} onOpenChange={setCancelOrderDialog}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>

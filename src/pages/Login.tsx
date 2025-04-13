@@ -11,9 +11,11 @@ import { useToast } from "@/hooks/use-toast";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
+  const [isSignup, setIsSignup] = useState(false);
   const [role, setRole] = useState<UserRole>("customer");
   const [isLoading, setIsLoading] = useState(false);
-  const { login } = useAuth();
+  const { login, signup } = useAuth();
   const { toast } = useToast();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -28,17 +30,36 @@ const Login = () => {
       return;
     }
 
+    if (isSignup && !name) {
+      toast({
+        title: "Error",
+        description: "Please enter your name.",
+        variant: "destructive"
+      });
+      return;
+    }
+
     try {
       setIsLoading(true);
-      await login(email, password, role);
-      toast({
-        title: "Success",
-        description: `Logged in as ${role}.`,
-      });
+      if (isSignup) {
+        await signup(email, password, name, role);
+        toast({
+          title: "Success",
+          description: `Account created successfully.`,
+        });
+      } else {
+        await login(email, password, role);
+        toast({
+          title: "Success",
+          description: `Logged in as ${role}.`,
+        });
+      }
     } catch (error) {
       toast({
         title: "Error",
-        description: "Failed to log in. Please check your credentials.",
+        description: isSignup 
+          ? "Failed to create account. Please try again." 
+          : "Failed to log in. Please check your credentials.",
         variant: "destructive"
       });
     } finally {
@@ -51,13 +72,13 @@ const Login = () => {
       <div className="relative hidden h-full flex-col bg-muted p-10 text-white dark:border-r lg:flex">
         <div className="absolute inset-0 bg-brand-dark">
           <img 
-            src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d" 
+            src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80" 
             alt="Inventory Management" 
             className="object-cover w-full h-full opacity-20"
           />
         </div>
         <div className="relative z-20 flex items-center text-lg font-medium">
-          <span className="text-primary text-xl font-bold">Inven</span>Flow
+          <span className="text-primary text-2xl font-bold">Inven</span>Flow
         </div>
         <div className="relative z-20 mt-auto">
           <blockquote className="space-y-2">
@@ -71,9 +92,13 @@ const Login = () => {
       <div className="lg:p-8">
         <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
           <div className="flex flex-col space-y-2 text-center">
-            <h1 className="text-2xl font-semibold tracking-tight">Sign In to InvenFlow</h1>
+            <h1 className="text-2xl font-semibold tracking-tight">
+              {isSignup ? "Create an Account" : "Sign In to InvenFlow"}
+            </h1>
             <p className="text-sm text-muted-foreground">
-              Enter your credentials to access your account
+              {isSignup 
+                ? "Enter your details to create your account" 
+                : "Enter your credentials to access your account"}
             </p>
           </div>
 
@@ -83,25 +108,32 @@ const Login = () => {
               <TabsTrigger value="administrator">Admin</TabsTrigger>
               <TabsTrigger value="supplier">Supplier</TabsTrigger>
             </TabsList>
-            <TabsContent value="customer" className="mt-4">
+            <TabsContent value={role} className="mt-4">
               <form onSubmit={handleSubmit} className="space-y-4">
+                {isSignup && (
+                  <div className="space-y-1">
+                    <Label htmlFor="name">Full Name</Label>
+                    <Input 
+                      id="name" 
+                      type="text" 
+                      placeholder="John Doe"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                    />
+                  </div>
+                )}
                 <div className="space-y-1">
                   <Label htmlFor="email">Email</Label>
                   <Input 
                     id="email" 
                     type="email" 
-                    placeholder="customer@invenflow.com"
+                    placeholder={`${role.toLowerCase()}@invenflow.com`}
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                   />
                 </div>
                 <div className="space-y-1">
-                  <div className="flex items-center justify-between">
-                    <Label htmlFor="password">Password</Label>
-                    <Link to="/forgot-password" className="text-sm text-primary underline-offset-4 hover:underline">
-                      Forgot password?
-                    </Link>
-                  </div>
+                  <Label htmlFor="password">Password</Label>
                   <Input 
                     id="password" 
                     type="password"
@@ -111,83 +143,23 @@ const Login = () => {
                   />
                 </div>
                 <Button type="submit" className="w-full" variant="green" disabled={isLoading}>
-                  {isLoading ? "Signing In..." : "Sign In as Customer"}
-                </Button>
-              </form>
-            </TabsContent>
-            
-            <TabsContent value="administrator" className="mt-4">
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div className="space-y-1">
-                  <Label htmlFor="admin-email">Email</Label>
-                  <Input 
-                    id="admin-email" 
-                    type="email" 
-                    placeholder="admin@invenflow.com"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                  />
-                </div>
-                <div className="space-y-1">
-                  <div className="flex items-center justify-between">
-                    <Label htmlFor="admin-password">Password</Label>
-                    <Link to="/forgot-password" className="text-sm text-primary underline-offset-4 hover:underline">
-                      Forgot password?
-                    </Link>
-                  </div>
-                  <Input 
-                    id="admin-password" 
-                    type="password"
-                    placeholder="••••••••"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                  />
-                </div>
-                <Button type="submit" className="w-full" variant="green" disabled={isLoading}>
-                  {isLoading ? "Signing In..." : "Sign In as Admin"}
-                </Button>
-              </form>
-            </TabsContent>
-            
-            <TabsContent value="supplier" className="mt-4">
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div className="space-y-1">
-                  <Label htmlFor="supplier-email">Email</Label>
-                  <Input 
-                    id="supplier-email" 
-                    type="email" 
-                    placeholder="supplier@invenflow.com"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                  />
-                </div>
-                <div className="space-y-1">
-                  <div className="flex items-center justify-between">
-                    <Label htmlFor="supplier-password">Password</Label>
-                    <Link to="/forgot-password" className="text-sm text-primary underline-offset-4 hover:underline">
-                      Forgot password?
-                    </Link>
-                  </div>
-                  <Input 
-                    id="supplier-password" 
-                    type="password"
-                    placeholder="••••••••"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                  />
-                </div>
-                <Button type="submit" className="w-full" variant="green" disabled={isLoading}>
-                  {isLoading ? "Signing In..." : "Sign In as Supplier"}
+                  {isLoading 
+                    ? (isSignup ? "Creating Account..." : "Signing In...") 
+                    : (isSignup ? `Sign Up as ${role}` : `Sign In as ${role}`)}
                 </Button>
               </form>
             </TabsContent>
           </Tabs>
 
           <p className="text-center text-sm text-muted-foreground">
-            Don't have an account?{" "}
-            <Link to="/register" className="text-sm text-primary underline-offset-4 hover:underline">
-              Register
-            </Link>
+            {isSignup ? "Already have an account?" : "Don't have an account?"}{" "}
+            <Button 
+              variant="link" 
+              className="p-0 h-auto text-primary underline-offset-4 hover:underline"
+              onClick={() => setIsSignup(!isSignup)}
+            >
+              {isSignup ? "Sign In" : "Sign Up"}
+            </Button>
           </p>
         </div>
       </div>
